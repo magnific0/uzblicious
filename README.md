@@ -9,12 +9,12 @@ bookmarking service with the uzbl browser.
 Installation
 --------------
 
-- Copy the uzblicious folder to ~/.local/share/uzbl/scripts/
+1. Copy the uzblicious folder to ~/.local/share/uzbl/scripts/
 
-- Copy and edit uzblicious.conf to ~/.config/uzbl/, set up your account name 
+2. Copy and edit uzblicious.conf to ~/.config/uzbl/, set up your account name 
 and password.
 
-- Edit uzbl config (~/.config/uzbl/config) and add the following lines so uzbl 
+3. Edit uzbl config (~/.config/uzbl/config) and add the following lines so uzbl 
 will invoke the scripts:
 
 	set del_scripts_dir = /home/wacko/.local/share/uzbl/scripts/uzblicious
@@ -29,10 +29,10 @@ will invoke the scripts:
 
 	@cbind h = spawn @del_scripts_dir/browse-history.sh
 
-- Make sure to comment out any current bindings to the afore mentioned keys to 
+4. Make sure to comment out any current bindings to the afore mentioned keys to 
 prevent any problems. 
 
-- Sync your bookmarks
+5. Sync your bookmarks
 
 	cd ~/.local/share/uzbl/scripts/uzblicious/
 
