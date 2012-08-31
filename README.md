@@ -23,6 +23,7 @@ set del_scripts_dir = /home/wacko/.local/share/uzbl/scripts/uzblicious
 @cbind H = spawn @del_scripts_dir/browse-history-new.sh
 
 @cbind h = spawn @del_scripts_dir/browse-history.sh
+
 4. Make sure to comment out any current bindings to the afore mentioned keys to 
 prevent any problems. 
 
