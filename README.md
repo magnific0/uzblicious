@@ -18,10 +18,15 @@ and password.
 will invoke the scripts:
 
 	set del_scripts_dir = /home/wacko/.local/share/uzbl/scripts/uzblicious
+
 	@cbind d = spawn @del_scripts_dir/add.sh
+
 	@cbind U = spawn @del_scripts_dir/browse-new.sh
+
 	@cbind u = spawn @del_scripts_dir/browse.sh
+
 	@cbind H = spawn @del_scripts_dir/browse-history-new.sh
+
 	@cbind h = spawn @del_scripts_dir/browse-history.sh
 
 - Make sure to comment out any current bindings to the afore mentioned keys to 
@@ -30,6 +35,7 @@ prevent any problems.
 - Sync your bookmarks
 
 	cd ~/.local/share/uzbl/scripts/uzblicious/
+
 	./sync.sh
 
 Todo
