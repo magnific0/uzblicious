@@ -4,7 +4,7 @@ uzblicious
 About
 --------------
 uzblicious (usable-icious) is a set of scripts designed to integrate Delicious 
-bookmarking service with the uzbl browser. All these scripts were taken from azer's github contribution delicious-surf (http://github.com/azer/delicious-surf and modified/expanded to facilitate the integration with uzbl.
+bookmarking service with the uzbl browser. All these scripts were taken from azer's github contribution [delicious-surf](http://github.com/azer/delicious-surf and modified/expanded) to facilitate the integration with uzbl.
 
 Installation
 --------------
