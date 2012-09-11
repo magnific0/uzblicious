@@ -17,26 +17,26 @@ and password.
 3. Edit uzbl config (~/.config/uzbl/config) and add the following lines so uzbl 
 will invoke the scripts:
 
-	set del_scripts_dir = /home/wacko/.local/share/uzbl/scripts/uzblicious
+		set del_scripts_dir = /home/wacko/.local/share/uzbl/scripts/uzblicious
 
-	@cbind d = spawn @del_scripts_dir/add.sh
+		@cbind d = spawn @del_scripts_dir/add.sh
 
-	@cbind U = spawn @del_scripts_dir/browse-new.sh
+		@cbind U = spawn @del_scripts_dir/browse-new.sh
 
-	@cbind u = spawn @del_scripts_dir/browse.sh
+		@cbind u = spawn @del_scripts_dir/browse.sh
 
-	@cbind H = spawn @del_scripts_dir/browse-history-new.sh
+		@cbind H = spawn @del_scripts_dir/browse-history-new.sh
 
-	@cbind h = spawn @del_scripts_dir/browse-history.sh
+		@cbind h = spawn @del_scripts_dir/browse-history.sh
 
 4. Make sure to comment out any current bindings to the afore mentioned keys to 
 prevent any problems. 
 
 5. Sync your bookmarks
 
-	cd ~/.local/share/uzbl/scripts/uzblicious/
+		cd ~/.local/share/uzbl/scripts/uzblicious/
 
-	./sync.sh
+		./sync.sh
 
 Todo
 --------------
