@@ -23,15 +23,15 @@ A favorite bookmark is easily selected with DMENU's on-the-fly look-up ability. 
 
 ### Following a URL
 
-Simply type the address of the website you would like to visit. You do not have to type strict urls, e.g. `google.com` will do just fine. Mind that bookmarks will be given preference, so if your desired destination also matches a previously bookmarked item then selection (`<Enter>`) will follow your bookmark instead of your typed address (it was interpreted as a search word and it matched with an bookmark). To confirm what is type and not what is high-lighted simply press `<Shift><Enter>`
+Simply type the address of the website you would like to visit. You do not have to type strict urls, e.g. `google.com` will do just fine. Mind that bookmarks will be given preference, so if your desired destination also matches a previously bookmarked item then selection (`<Enter>`) will follow your bookmark instead of your typed address (it was interpreted as a search word and it matched with a bookmark). To confirm what is typed and not what is high-lighted simply press `<Shift><Enter>`.
 
 ### Searching the web
 
-To search the web with your favorite browser simply type some keywords and hit `<Enter>`. Mind that, as with following a URL, if your search string matches a bookmark hitting return will open the bookmark instead of launching a search. To confirm what is type and not what is high-lighted simply press `<Shift><Enter>`
+To search the web with your favorite browser simply type some keywords and hit `<Enter>`. Mind that, as with following a URL, if your search string matches a bookmark hitting return will open the bookmark instead of launching a search. To confirm what is typed and not what is high-lighted simply press `<Shift><Enter>`.
 
 ### Selecting a search engine
 
-To select a specific search engine, simply prefix your query by the search engine handle. For istance to search with Duck Duck Go, use `ddg:some test query`.
+To select a specific search engine, simply prefix your query by the search engine handle. For istance to search with Duck Duck Go, type `ddg:some test query`.
 
 Installation
 --------------
@@ -66,7 +66,7 @@ Installation
 
 5. Sync your bookmarks
 
-	./.local/share/uzbl/scripts/uzblicious.sh -s
+		./.local/share/uzbl/scripts/uzblicious.sh -s
 
 Usage
 --------------
@@ -85,7 +85,7 @@ The following command line options are allowed:
 
 - `-a [<url>]` Add url to bookmarks (optional if spawned from within UZBL)
 
-- `-c` Clean history
+- `-c` Clear history
 
 Examples:
 
