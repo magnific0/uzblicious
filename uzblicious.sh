@@ -91,7 +91,7 @@ sync()
 {
     log "START fetching bookmarks from delicious. User: $user"
 
-    datemodified=$(curl -s "https://$user:$passwd@api.del.icio.us/v1/posts/update" | sed 's/"/\n/g' | grep -A 1 time | tail)
+    datemodified=$(curl -s "https://$user:$passwd@api.del.icio.us/v1/posts/update" | sed 's/"/\n/g' | grep -A 1 time | tail -1)
 
     cacheversion=$(cat $del_browser_dir/bookmarks.ver)
 
