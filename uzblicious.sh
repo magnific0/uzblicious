@@ -51,7 +51,7 @@ add()
     if echo "$resp" | grep "<result code=\"access denied\"/>" >/dev/null; then 
 	echo "Error: Access denied."
 	log "ERROR while fetching bookmarks from delicious. (Access denied)"
-	exit 1
+	exit
     fi
 
     recoms=`echo "$resp" | sed 's/</\n</g' | sed 's/\/>/\/>\n/g' | grep tag | sed 's/<[^>]*tag\="\([^"]*\)"[^>]*\/>/\1/g'`
@@ -105,7 +105,7 @@ sync()
     if echo "$resp" | grep "<result code=\"access denied\"/>" >/dev/null; then 
 	echo "Error: Access denied."
 	log "ERROR while fetching bookmarks from delicious. (Access denied)"
-	exit 1
+	exit
     fi
 
     echo "$resp" | sed 's/<post/\n<post/g' | sed 's/\/>/\/>\n/g' | grep href | sed 's/<[^>]*href\="\([^"]*\)"[^>]*tag\="\([^"]*\)"[^>]*\/>/\1 \2/g' > $del_browser_dir/bookmarks
@@ -127,7 +127,7 @@ while getopts hab:ncs o
 do	case "$o" in
 	h) 
 	    usage
-	    exit 1;;
+	    exit;;
 	a)
 	    if [ ! -z $2 ]; then
 		UZBL_URI="$2"
@@ -148,7 +148,7 @@ do	case "$o" in
 	    ;;
 	[?])
 	    usage
-	    exit 1;;
+	    exit;;
 	esac
 done
 
@@ -216,7 +216,7 @@ fi
 if [ ! -z $URL ]; then
   # see if a new window is required
   if $NEWWINDOW; then
-    eval "uzbl-browser \"$URL\" 2> /dev/null"
+    eval "uzbl-browser \"$URL\" 2> /dev/null &"
   else    
     echo "uri $URL" | socat - "unix-connect:$UZBL_SOCKET"
   fi
