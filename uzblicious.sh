@@ -91,6 +91,15 @@ sync()
 {
     log "START fetching bookmarks from delicious. User: $user"
 
+    datemodified=$(curl -s "https://$user:$passwd@api.del.icio.us/v1/posts/update" | sed 's/"/\n/g' | grep -A 1 time | tail)
+
+    cacheversion=$(cat $del_browser_dir/bookmarks.ver)
+
+    if [ "$datemodified" == "$cacheversion" ]; then
+	log "DONE bookmarks cache is uptodate."
+	exit
+    fi
+
     resp=$(curl -s "https://$user:$passwd@api.del.icio.us/v1/posts/all")
 
     if echo "$resp" | grep "<result code=\"access denied\"/>" >/dev/null; then 
@@ -100,6 +109,8 @@ sync()
     fi
 
     echo "$resp" | sed 's/<post/\n<post/g' | sed 's/\/>/\/>\n/g' | grep href | sed 's/<[^>]*href\="\([^"]*\)"[^>]*tag\="\([^"]*\)"[^>]*\/>/\1 \2/g' > $del_browser_dir/bookmarks
+
+    echo "$datemodified" > $del_browser_dir/bookmarks.ver
 
     log "DONE fetching bookmarks from delicious."
     exit
