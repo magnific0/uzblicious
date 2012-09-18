@@ -4,7 +4,7 @@ uzblicious
 Copyright
 -------------
 
-magnific0 http://www.github.com/magnific0 (c) Copyright 2012
+[magnific0](http://www.github.com/magnific0) (c) Copyright 2012
 Licenced under the GPLv3
 
 About
@@ -68,7 +68,7 @@ Installation
 
 		.local/share/uzbl/scripts/uzblicious.sh -s
 
-6. *OPTIONAL* Regularly synchronizing your bookmarks: every time you add a bookmark it is commited to both delicious and your local cache. However, if you add delicious bookmarks on the web, mobile device, i.e. anywhere other than through uzblicious.sh, it is not added to you local cache. For this to happen you must invoke the synchronisation command. It might therefore be handy to add the command above to your `.xinitrc` or to a cronjob. You can also synchronize your bookmarks every time you launch uzbl. The script will check whether there is a newer version, so this will generate moderate additional traffic. Somewhere in your uzbl config (`~/.config/uzbl/config`) add:
+6. *OPTIONAL* Regularly synchronizing your bookmarks: every time you add a bookmark it is commited to both delicious and your local cache. However, if you add delicious bookmarks on the web, mobile device, i.e. anywhere other than through uzblicious.sh, it is not added to you local cache. For this to happen you must invoke the synchronisation command. It might therefore be handy to add the command above to your `.xinitrc` or to a cronjob. You can also synchronize your bookmarks every time you launch uzbl. The script will check whether there is have been changes made, so this will generate just moderate amounts additional traffic. Somewhere in your uzbl config (`~/.config/uzbl/config`) add:
 
 		spawn @scripts_dir/uzblicious.sh -s
 
@@ -97,8 +97,4 @@ Examples:
 
 	uzblicious -a http://www.google.com
 
-Todo
---------------
-
-- Find a proper way to invoke synchronisation and how often
 
