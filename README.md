@@ -66,7 +66,7 @@ Installation
 
 5. Sync your bookmarks
 
-		./.local/share/uzbl/scripts/uzblicious.sh -s
+		.local/share/uzbl/scripts/uzblicious.sh -s
 
 Usage
 --------------
