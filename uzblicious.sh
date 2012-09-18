@@ -1,19 +1,26 @@
 #!/bin/bash
-
+# uzblicious
+# (c) 2012 magnific0 (http://www.github.com/magnific0)
+# released under GPLv3
 usage()
 {
 cat << EOF
-usage: $0 options
+usage: $0 [-hcsn] [-b [<browse_source>]] [-a [<url>]]
 
 This script will control bookmarking and history for UZBL
 
 OPTIONS:
    -h      Show this message
    -b      Browse source (bookmarks by default)
-   -s      Sync bookmarks
    -n      New window
+   -s      Sync bookmarks with delicious
    -a      Add new bookmarks (can only be spawned from within UZBL)
    -c      Clean history
+
+EXAMPLES:
+uzblicious -b history -n
+uzblicious -a http://www.google.com
+
 EOF
 }
 
