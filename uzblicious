@@ -35,11 +35,15 @@ log()
 
 freshrun(){
     cp /usr/share/uzbl/examples/config/uzblicious.conf.example "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf
+    touch $del_browser_dir/bookmarks
+    touch $del_browser_dir/uzbl/bookmarks.ver
+    touch $del_browser_dir/uzbl/uzblicious.log
+    touch $del_browser_dir/history
 
     # only if it is NOT spawned from within uzbl give user oppurtunity to edit the file
     if [ -z $UZBL_URI ]; then
 	read -p "New configuration file copied, would you like to edit it? (Y/n):"
-	if [ [ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ] || [ -z $REPLY ] ]; then
+	if [ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ] || [ -z $REPLY ]; then
 	    vi "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf
 	else
 	    echo "You still need to setup your delicious account, edit:"
