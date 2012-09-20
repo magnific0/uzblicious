@@ -10,7 +10,7 @@ Licenced under the GPLv3
 About
 --------------
 
-uzblicious (usable-icious) is a script designed to integrate Delicious bookmarking service with the uzbl browser. It also aims at replacing and integrating the search and launch functionality of UZBL.
+uzblicious (usable-icious) is a script that integrates Delicious bookmarking service with uzbl. It also aims at replacing and integrating the search and launch functionality of uzbl. You can open a bookmark, follow an url or search the web all from within the same command!
 
 Features
 --------------
@@ -19,7 +19,7 @@ Below the basic operation of uzblicious is explained. These include the core fea
 
 ### Selecting bookmarks and running uzblicious
 
-A favorite bookmark is easily selected with DMENU's on-the-fly look-up ability. Fire up uzblicious and type a search string (and navigate with your cursors) to select/highlight the desired match and hit `<Enter>` to visit. Whatever you type will be matched to the addresses, titles and/or tags of your bookmarks. 
+A favorite bookmark is easily selected with dmenu's on-the-fly look-up ability. Fire up uzblicious and type a search string (and navigate with your cursors) to select/highlight the desired match and hit `<Enter>` to visit. Whatever you type will be matched to the addresses, titles and/or tags of your bookmarks. 
 
 ### Following a URL
 
@@ -31,7 +31,7 @@ To search the web with your favorite browser simply type some keywords and hit `
 
 ### Selecting a search engine
 
-To select a specific search engine, simply prefix your query by the search engine handle. For istance to search with Duck Duck Go, type `ddg:some test query`.
+To select a specific search engine, simply prefix your query by the search engine handle. For istance to search with Duck Duck Go, type `ddg:some test query`. Adding your own search engine is easily achieved through the configuration file.
 
 Installation
 --------------
