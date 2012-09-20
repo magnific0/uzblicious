@@ -247,7 +247,7 @@ fi
 # if a URL is set
 if [ ! -z $URL ]; then
   # see if a new window is required
-  if $NEWWINDOW; then
+  if $NEWWINDOW || [ -z $UZBL_SOCKET ]; then
     eval "uzbl-browser \"$URL\" 2> /dev/null &"
   else    
     echo "uri $URL" | socat - "unix-connect:$UZBL_SOCKET"

@@ -5,6 +5,9 @@
 # Delicious Login information
 user=
 passwd=
+
+# Disallow bookmarks to have no tags
+# this means no tags == abort add
 abort_on_zero_tags=true
 
 # Define some search engines

@@ -36,9 +36,13 @@ To select a specific search engine, simply prefix your query by the search engin
 Installation
 --------------
 
-1. Use the makefile to install uzblicious on your computer
+1. Browse the package and use the makefile to install uzblicious on your computer.
 
-		make install
+		tar -xvf magnific0-uzblicious-<version>.tar.gz
+
+		cd magnific0-uzblicious-<version>
+
+		sudo make install
 
 2. Edit uzbl config file with your favourite text editor, like so:
 
@@ -46,25 +50,29 @@ Installation
 	
 	and add the following lines so uzbl will spawn the script:
 
+		# Set the path to the executable
+
+		set uzblicious 	= @(echo $PATH)@:/uzblicious
+
 		# The following command will invoke the add tag command     	    
 	
-		@cbind d = spawn uzblicious -a
+		@cbind d = spawn @uzblicious -a
 
 		# Browse bookmarks, urls and search queries in a new window
 	
-		@cbind U = spawn uzblicious -n
+		@cbind U = spawn @uzblicious -n
 
 		# Browse bookmarks, urls and search queries in current window	
 
-		@cbind u = spawn uzblicious
+		@cbind u = spawn @uzblicious
 
 		# Browse history in a new window
 
-		@cbind H = spawn uzblicious -b history -n
+		@cbind H = spawn @uzblicious -b history -n
 
 		# Browse history in current window
 
-		@cbind h = spawn uzblicious -b history
+		@cbind h = spawn @uzblicious -b history
 
 	**NOTE** make sure to comment out any current bindings to the afore mentioned keys to prevent any problems. Additionally you could set-up bindings to other functions, such as sync and clear history.
 
