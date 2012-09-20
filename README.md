@@ -66,7 +66,7 @@ Installation
 
 		@cbind h = spawn uzblicious -b history
 
-	*NOTE* make sure to comment out any current bindings to the afore mentioned keys to prevent any problems. Additionally you could set-up bindings to other functions, such as sync and clear history.
+	**NOTE** make sure to comment out any current bindings to the afore mentioned keys to prevent any problems. Additionally you could set-up bindings to other functions, such as sync and clear history.
 
 3. Fetch your bookmarks
 
@@ -76,7 +76,7 @@ Installation
 
 		nano $XDG_CONFIG_HOME/uzbl/uzblicious.conf
 
-4. *OPTIONAL* Regularly synchronizing will make sure your local bookmarks are up-to-date. Every time you add a bookmark it is commited to both delicious and your local cache. However, if you add delicious bookmarks on the web, mobile device, i.e. anywhere other than through uzblicious.sh, it is not added to you local cache. For this to happen you must invoke the synchronisation command. It might therefore be handy to add the command above to your `.xinitrc` or to a cron job. You can also synchronize your bookmarks every time you launch uzbl. The script will check whether there is have been changes made, so this will generate just moderate amounts additional traffic. Somewhere in your uzbl config (`~/.config/uzbl/config`) add:
+4. **OPTIONAL** Regularly synchronizing will make sure your local bookmarks are up-to-date. Every time you add a bookmark it is commited to both delicious and your local cache. However, if you add delicious bookmarks on the web, mobile device, i.e. anywhere other than through uzblicious.sh, it is not added to you local cache. For this to happen you must invoke the synchronisation command. It might therefore be handy to add the command above to your `.xinitrc` or to a cron job. You can also synchronize your bookmarks every time you launch uzbl. The script will check whether there is have been changes made, so this will generate just moderate amounts additional traffic. Somewhere in your uzbl config (`$XDG_CONFIG_HOME/uzbl/config`) add:
 
 		spawn uzblicious -s
 
