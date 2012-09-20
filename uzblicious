@@ -24,7 +24,7 @@ uzblicious -a http://www.google.com
 EOF
 }
 
-del_browser_dir = "$XDG_DATA_HOME"/uzbl/
+del_browser_dir="$XDG_DATA_HOME"/uzbl/
 
 log()
 {
@@ -109,9 +109,6 @@ add()
 sync()
 {
 
-    # if no configuration file was found, make one
-    [ -f "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf ] || freshrun
-
     log "START fetching bookmarks from delicious. User: $user"
 
     datemodified=$(curl -s "https://$user:$passwd@api.del.icio.us/v1/posts/update" | sed 's/"/\n/g' | grep -A 1 time | tail -1)
@@ -144,7 +141,9 @@ BRSOURCE=bookmarks
 NEWWINDOW=false
 
 # read configuration
-source "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf > /dev/null 2>&1
+# if no configuration file was found, make one
+[ -f "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf ] || freshrun
+source "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf
 
 while getopts hab:ncs o
 do	case "$o" in
