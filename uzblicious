@@ -36,8 +36,8 @@ log()
 freshrun(){
     cp /usr/share/uzbl/examples/config/uzblicious.conf.example "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf
     touch $del_browser_dir/bookmarks
-    touch $del_browser_dir/uzbl/bookmarks.ver
-    touch $del_browser_dir/uzbl/uzblicious.log
+    touch $del_browser_dir/bookmarks.ver
+    touch $del_browser_dir/uzblicious.log
     touch $del_browser_dir/history
 
     # only if it is NOT spawned from within uzbl give user oppurtunity to edit the file
