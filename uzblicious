@@ -24,11 +24,30 @@ uzblicious -a http://www.google.com
 EOF
 }
 
+del_browser_dir = "$XDG_DATA_HOME"/uzbl/
+
 log()
 {
     dt=$(date)
     msg="${1}"
     echo "$dt - $msg">>$del_browser_dir/uzblicious.log
+}
+
+freshrun(){
+    cp /usr/share/uzbl/examples/config/uzblicious.conf.example "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf
+
+    # only if it is NOT spawned from within uzbl give user oppurtunity to edit the file
+    if [ -z $UZBL_URI ]; then
+	read -p "New configuration file copied, would you like to edit it? (Y/n):"
+	if [ [ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ] || [ -z $REPLY ] ]; then
+	    vi "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf
+	else
+	    echo "You still need to setup your delicious account, edit:"
+	    echo "$XDG_CONFIG_HOME/uzbl/uzblicious.conf"
+	    echo "using your favourite editor."
+	fi
+    fi
+    log "INSTALL fresh installation"
 }
 
 clean()
@@ -89,6 +108,10 @@ add()
 
 sync()
 {
+
+    # if no configuration file was found, make one
+    [ -f "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf ] || freshrun
+
     log "START fetching bookmarks from delicious. User: $user"
 
     datemodified=$(curl -s "https://$user:$passwd@api.del.icio.us/v1/posts/update" | sed 's/"/\n/g' | grep -A 1 time | tail -1)
@@ -121,7 +144,7 @@ BRSOURCE=bookmarks
 NEWWINDOW=false
 
 # read configuration
-source ~/.config/uzbl/uzblicious.conf
+source "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf > /dev/null 2>&1
 
 while getopts hab:ncs o
 do	case "$o" in
@@ -131,7 +154,7 @@ do	case "$o" in
 	a)
 	    if [ ! -z $2 ]; then
 		UZBL_URI="$2"
-		UZBL_TITLE=`wget --quiet -O - $UZBL_URI | sed -n -e 'H;${x;s!.*<head[^>]*>\(.*\)</head>.*!\1!;tnext};b;:next;s!.*<title>\(.*\)</title>.*!\1!p'`
+		UZBL_TITLE=`curl -L --silent $UZBL_URI | sed -n -e 'H;${x;s!.*<head[^>]*>\(.*\)</head>.*!\1!;tnext};b;:next;s!.*<title>\(.*\)</title>.*!\1!p'`
 	    fi
 	    add
 	    ;;
@@ -158,6 +181,12 @@ if [ $BRSOURCE == "history" ]; then
 else
     # get the choice back from dmenu and extract very first "word"
     URL=`dmenu ${dmenu_args_colors} ${dmenu_args_browse} < $del_browser_dir/bookmarks`
+
+    # if the user entered nothing, perhaps aborted with ESC
+    if [ -z $URL ]; then
+	exit
+    fi	
+
     URL_1=`echo $URL | awk '{print $1}'`
 
     # match the input to see if url, 

@@ -7,9 +7,6 @@ user=
 passwd=
 abort_on_zero_tags=true
 
-# Locations
-del_browser_dir=~/.local/share/uzbl 
-
 # Define some search engines
 search_handlers=(
     '^gg:(.+)'   'http://www.google.com/search?q=%s'
