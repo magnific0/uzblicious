@@ -31,7 +31,7 @@ To search the web with your favorite browser simply type some keywords and hit `
 
 ### Selecting a search engine
 
-To select a specific search engine, simply prefix your query by the search engine handle. For istance to search with Duck Duck Go, type `ddg:some test query`. Adding your own search engine is easily achieved through the configuration file.
+To select a specific search engine, simply prefix your query by the search engine handle. For istance to search with Duck Duck Go, type `ddg:some test query`. Your own search engine is easily added in the configuration file.
 
 Installation
 --------------
