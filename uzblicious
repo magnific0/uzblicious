@@ -115,8 +115,21 @@ sync()
 
     log "START fetching bookmarks from delicious. User: $user"
 
-    datemodified=$(curl -s "https://$user:$passwd@api.del.icio.us/v1/posts/update" | sed 's/"/\n/g' | grep -A 1 time | tail -1)
+    resp=$(curl -s "https://$user:$passwd@api.del.icio.us/v1/posts/update") 
+    
+    if echo "$resp" | grep "<result code=\"access denied\"/>" >/dev/null; then
+        echo "Error: Access denied."
+        log "ERROR while fetching bookmarks from delicious. (Access denied)"
+        exit
+    fi    
+    
+    if [ -z $resp ]; then
+        log "ERROR while fetching bookmarks from delicious. (Internet or host seems down)"
+        exit
+    fi 
 
+    datemodified=$(echo $resp | sed 's/"/\n/g' | grep -A 1 time | tail -1)
+    
     cacheversion=$(cat $del_browser_dir/bookmarks.ver)
 
     if [ "$datemodified" == "$cacheversion" ]; then
@@ -125,12 +138,6 @@ sync()
     fi
 
     resp=$(curl -s "https://$user:$passwd@api.del.icio.us/v1/posts/all")
-
-    if echo "$resp" | grep "<result code=\"access denied\"/>" >/dev/null; then 
-	echo "Error: Access denied."
-	log "ERROR while fetching bookmarks from delicious. (Access denied)"
-	exit
-    fi
 
     echo "$resp" | sed 's/<post/\n<post/g' | sed 's/\/>/\/>\n/g' | grep href | sed 's/<[^>]*href\="\([^"]*\)"[^>]*tag\="\([^"]*\)"[^>]*\/>/\1 \2/g' > $del_browser_dir/bookmarks
 
