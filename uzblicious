@@ -123,7 +123,7 @@ sync()
         exit
     fi    
     
-    if [ -z $resp ]; then
+    if [ -z "$resp" ]; then
         log "ERROR while fetching bookmarks from delicious. (Internet or host seems down)"
         exit
     fi 
