@@ -37,6 +37,7 @@ freshrun(){
     cp /usr/share/uzbl/examples/config/uzblicious.conf.example "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf
     touch $del_browser_dir/bookmarks
     touch $del_browser_dir/bookmarks.ver
+    touch $del_browser_dir/bookmarks.count
     touch $del_browser_dir/uzblicious.log
     touch $del_browser_dir/history
 
@@ -139,8 +140,8 @@ sync()
 
     resp=$(curl -s "https://$user:$passwd@api.del.icio.us/v1/posts/all")
 
-    echo "$resp" | sed 's/<post/\n<post/g' | sed 's/\/>/\/>\n/g' | grep href | sed 's/<[^>]*href\="\([^"]*\)"[^>]*tag\="\([^"]*\)"[^>]*\/>/\1 \2/g' > $del_browser_dir/bookmarks
-
+    echo "$resp" | sed 's/<post/\n<post/g' | sed 's/\/>/\/>\n/g' | grep href | sed 's/<[^>]*hash\="\([^"]*\)"[^>]*href\="\([^"]*\)"[^>]*tag\="\([^"]*\)"[^>]*\/>/\1 \2 \3/g' > $del_browser_dir/bookmarks
+    
     echo "$datemodified" > $del_browser_dir/bookmarks.ver
 
     log "DONE fetching bookmarks from delicious."
@@ -187,43 +188,56 @@ done
 
 if [ $BRSOURCE == "history" ]; then
     # get choice back from history
-    URL=`sort -r $del_browser_dir/history | dmenu ${dmenu_args_colors} ${dmenu_args_browse} | awk '{print $3}'`
+    URL=$(sort -r $del_browser_dir/history | dmenu ${dmenu_args_colors} ${dmenu_args_browse} | awk '{print $3}')
 else
     # get the choice back from dmenu and extract very first "word"
-    URL=`dmenu ${dmenu_args_colors} ${dmenu_args_browse} < $del_browser_dir/bookmarks`
+    URL=$(join -a 2 <(sort $del_browser_dir/bookmarks.count) <(sort $del_browser_dir/bookmarks) | sort -k2 -nr | awk '{for (i=2; i<=NF; i++) printf "%s ",$i; print $1}' | dmenu ${dmenu_args_colors} ${dmenu_args_browse})
 
     # if the user entered nothing, perhaps aborted with ESC
-    if [ -z $URL ]; then
+    if [ -z "$URL" ]; then
 	exit
     fi	
 
-    URL_1=`echo $URL | awk '{print $1}'`
-
-    # match the input to see if url, 
+    # URL regex 
     # http://www.example.com www.example.com example.com are all allowed
     URLRGX='^((([hH][tT][tT][pP][sS]?|[fF][tT][pP])\:\/\/)?([\w\.\-]+(\:[\w\.\&%\$\-]+)*@)?((([^\s\(\)\<\>\\\"\.\[\]\,@;:]+)(\.[^\s\(\)\<\>\\\"\.\[\]\,@;:]+)*(\.[a-zA-Z]{2,4}))|((([01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}([01]?\d{1,2}|2[0-4]\d|25[0-5])))(\b\:(6553[0-5]|655[0-2]\d|65[0-4]\d{2}|6[0-4]\d{3}|[1-5]\d{4}|[1-9]\d{0,3}|0)\b)?((\/[^\/][\w\.\,\?'\''\\\/\+&%\$#\=~_\-@]*)*[^\.\,\?\"'\''\(\)\[\]!;<>{}\s\x7F-\xFF])?)$'
-
-    if echo "$URL_1" | grep -Pe $URLRGX >/dev/null; then 
-	URL=$URL_1
-    else
-        # match the specified search engine
-	for i in $(eval echo {0..`expr ${#search_handlers[@]} - 1`..2}); do
+    
+    # match last argument to hash regex to see if bookmark was selected
+    CHASH=$(echo $URL | awk '{print $NF}') # hash
+    if $(echo $CHASH | grep -e "[0-9a-f]\{32\}" > /dev/null); then
+	# increment count on url
+	COUNT=$(echo $URL | awk '{print $1}')
+	# if count is not a number hash was never in the bookmarks_count file, meaning 0 visits
+	if ! [[ "$COUNT" =~ ^[0-9]+$ ]]; then
+	    URL=$COUNT 
+	    COUNT="1"
+	else
+	    URL=$(echo $URL | awk '{print $2}') 
+	    COUNT=$(expr $COUNT + 1)
+	    sed -i '/'"$CHASH"'/d' $del_browser_dir/bookmarks.count > $del_browser_dir/bookmarks.count.tmp
+	    mv $del_browser_dir/bookmarks.count.tmp $del_browser_dir/bookmarks.count
+	fi
+	echo "$CHASH $COUNT" >> $del_browser_dir/bookmarks.count
+    # if not a bookmark and is not an URL then treat as search string
+    elif echo "$URL" | grep -Pve $URLRGX >/dev/null; then 
+            # match the specified search engine
+	for i in $(eval echo {0..$(expr ${#search_handlers[@]} - 1)..2}); do
 	    if echo "$URL_1" | egrep ${search_handlers[i]} >/dev/null; then
 	        #get the search url from array and extract keywords
-		ARG=`echo $URL | awk -F: '{for (i=2; i<=NF; i++) print $i}'`
-		URL=${search_handlers[`expr $i + 1`]}
+		ARG=$(echo $URL | awk -F: '{for (i=2; i<=NF; i++) print $i}')
+		URL=${search_handlers[$(expr $i + 1)]}
 		break
 	    fi 
 	done
 
-         # none found: take the first (default) search engine
+            # none found: take the first (default) search engine
 	if [ -z $ARG ]; then
-	    ARG=$URL
+	    ARG=$(echo $URL | awk '{for (i=1; i<=NF; i++) print $i}') 
 	    URL=${search_handlers[1]}
 	    
 	fi
 
-        # function to encode the keywords
+            # function to encode the keywords
 	rawurlencode() {
 	    local string="${1}"
 	    local strlen=${#string}
@@ -243,9 +257,9 @@ else
 	    ARG="${encoded}"
 	}
 
-        # encode the keywords and create url
+            # encode the keywords and create url
 	rawurlencode "$ARG"
-	URL=`echo $URL | sed "s/%s/$ARG/g"`
+	URL=$(echo $URL | sed "s/%s/$ARG/g")
     fi
 fi
 
