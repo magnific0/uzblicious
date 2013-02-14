@@ -215,10 +215,9 @@ else
 	CHASH=$(echo $URL_F | awk '{print $1}') # hash
 	COUNT=$(echo $URL_F | awk '{print $2}') # count number
 	# if count is not a number hash was never in the bookmarks_count file, meaning 0 visits
-	cp -f $del_browser_dir/bookmarks.count $del_browser_dir/bookmarks.count.tmp
 	URL=$(echo $URL | awk '{print $1}') 
 	COUNT=$(expr $COUNT + 1)
-	sed -i '/'"$CHASH"'/d' $del_browser_dir/bookmarks.count > $del_browser_dir/bookmarks.count.tmp
+	sed '/'"$CHASH"'/d' $del_browser_dir/bookmarks.count > $del_browser_dir/bookmarks.count.tmp
 	echo "$CHASH $COUNT" >> $del_browser_dir/bookmarks.count.tmp
 	mv -f $del_browser_dir/bookmarks.count.tmp $del_browser_dir/bookmarks.count
     # if not a bookmark and is not an URL then treat as search string
