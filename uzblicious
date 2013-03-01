@@ -24,7 +24,8 @@ uzblicious -a http://www.google.com
 EOF
 }
 
-del_browser_dir="$XDG_DATA_HOME"/uzbl/
+[ -z "$XDG_DATA_HOME" ] && del_browser_dir="$HOME"/.local/share/uzbl || del_browser_dir="$XDG_DATA_HOME"/uzbl
+[ -z "$XDG_CONFIG_HOME" ] && del_browser_cdir="$HOME"/.config/uzbl || del_browser_cdir="$XDG_CONFIG_HOME"/uzbl 
 
 log()
 {
@@ -34,7 +35,7 @@ log()
 }
 
 freshrun(){
-    cp /usr/share/uzbl/examples/config/uzblicious.conf.example "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf
+    cp /usr/share/uzbl/examples/config/uzblicious.conf.example $del_browser_cdir/uzblicious.conf
     touch $del_browser_dir/bookmarks
     touch $del_browser_dir/bookmarks.ver
     touch $del_browser_dir/bookmarks.count
@@ -45,10 +46,10 @@ freshrun(){
     if [ -z $UZBL_URI ]; then
 	read -p "New configuration file copied, would you like to edit it? (Y/n):"
 	if [ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ] || [ -z $REPLY ]; then
-	    vi "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf
+	    vi $del_browser_cdir/uzblicious.conf
 	else
 	    echo "You still need to setup your delicious account, edit:"
-	    echo "$XDG_CONFIG_HOME/uzbl/uzblicious.conf"
+	    echo "$del_browser_cdir/uzblicious.conf"
 	    echo "using your favourite editor."
 	fi
     fi
@@ -153,8 +154,8 @@ NEWWINDOW=false
 
 # read configuration
 # if no configuration file was found, make one
-[ -f "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf ] || freshrun
-source "$XDG_CONFIG_HOME"/uzbl/uzblicious.conf
+[ -f $del_browser_cdir/uzblicious.conf ] || freshrun
+source $del_browser_cdir/uzblicious.conf
 
 while getopts hab:ncs o
 do	case "$o" in
